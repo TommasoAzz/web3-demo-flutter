@@ -21,6 +21,7 @@ class Header extends StatelessWidget {
           ),
         ),
         Card(
+          elevation: 5,
           color: Colors.blue,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
@@ -31,6 +32,7 @@ class Header extends StatelessWidget {
                   "Account: $account",
                   style: TextStyle(
                     fontSize: Theme.of(context).textTheme.headline3?.fontSize,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],

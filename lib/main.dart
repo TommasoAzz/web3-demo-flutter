@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 import 'package:web3_demo_flutter/connector/web3_connector.dart';
 import 'package:web3_demo_flutter/widget/home_page.dart';
@@ -23,10 +22,15 @@ class SmartTodoList extends StatelessWidget {
       home: MultiProvider(
         providers: [
           Provider<String>.value(
-            value: "assets/contracts/TodoList.json",
+            value: "0x6c6ddD04ADd0a6FC2c121E7DeB4e95744A8B9061",
           ),
+          Provider<List<String>>.value(value: const [
+            "function addTodoItem(string) returns (uint)",
+            "function getTodoItems() view returns (TodoItem[])",
+            "function updateTodoItemState(uint, CompletitionState) returns (bool)"
+          ]),
           Provider<Web3Connector>(
-            create: (context) => Web3Connector(rootBundle.loadString),
+            create: (context) => Web3Connector(),
           ),
         ],
         builder: (context, _) => HomePage(title: appTitle),

@@ -1,12 +1,8 @@
-import 'dart:convert' show json;
-
 import 'package:flutter_web3/flutter_web3.dart';
 import 'package:web3_demo_flutter/logger/logger.dart';
 
 class Web3Connector {
   final _logger = getLogger("Web3Connector");
-
-  final Future<String> Function(String) _loadContract;
 
   late Web3Provider _provider;
 
@@ -14,15 +10,14 @@ class Web3Connector {
 
   Contract? _contract;
 
-  Web3Connector(this._loadContract);
+  Web3Connector();
 
   Future<void> _initWeb3() async {
     _logger.v("_initWeb3");
     if (Ethereum.isSupported) {
       try {
-        _accounts
-          ..clear()
-          ..addAll(await ethereum!.requestAccount());
+        _accounts.clear();
+        _accounts.addAll(await ethereum!.requestAccount());
 
         _logger.d("ACCOUNTS: $_accounts");
 
@@ -35,26 +30,17 @@ class Web3Connector {
     }
   }
 
-  Future<void> _loadContractFromFile(final String contractFilePath, final int networkId) async {
-    _logger.v("_loadContractFromFile");
-
-    final fileContent = await _loadContract(contractFilePath);
-
-    final jsonContract = json.decode(fileContent);
-
-    if (jsonContract is Map<String, dynamic>) {
-      _logger.d("The contract file appears to be valid.");
-      final deployedNetwork = jsonContract["networks"][networkId];
-      _contract = Contract(deployedNetwork["address"], jsonContract["abi"], _provider);
-    } else {
-      _logger.e("The contract doesn't seem to be valid. Not setting _contract.");
-    }
+  void _loadContractFromAddress(final String address, final List<String> abi) {
+    _contract = Contract(address, abi, _provider.getSigner());
   }
 
-  Future<Contract?> setupWeb3AndRetrieveContract(final String contractFilePath) async {
+  Future<Contract?> setupWeb3AndRetrieveContract(
+    final String contractAddress,
+    final List<String> contractABI,
+  ) async {
     _logger.v("setupWeb3AndRetrieveContract");
     await _initWeb3();
-    await _loadContractFromFile(contractFilePath, (await _provider.getNetwork()).chainId);
+    _loadContractFromAddress(contractAddress, contractABI);
     return _contract;
   }
 

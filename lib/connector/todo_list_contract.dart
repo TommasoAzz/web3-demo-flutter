@@ -8,20 +8,26 @@ class TodoListContract {
 
   final Web3Connector web3connector;
 
-  final String contractFilePath;
+  final String contractAddress;
+
+  final List<String> contractABI;
 
   late Contract? _todoListContract;
 
-  late String _account;
+  late final String _account;
 
   TodoListContract({
     required this.web3connector,
-    required this.contractFilePath,
+    required this.contractAddress,
+    required this.contractABI,
   });
 
   Future<void> connectToSmartContract() async {
     _logger.v("connectToSmartContract");
-    _todoListContract = await web3connector.setupWeb3AndRetrieveContract(contractFilePath);
+    _todoListContract = await web3connector.setupWeb3AndRetrieveContract(
+      contractAddress,
+      contractABI,
+    );
     _account = web3connector.firstAccount;
     _logger.d("Account is set to $_account");
   }
@@ -44,8 +50,8 @@ class TodoListContract {
       _logger.e("The instance for the TodoList smart contract is null.");
       return [];
     }
-    final todoListFromChain = await _todoListContract?.call("getTodoItems");
-    _logger.d(todoListFromChain);
+    final todoListFromChain = await _todoListContract!.call("getTodoItems");
+    _logger.d("TODO LIST: $todoListFromChain");
     return [];
   }
 }

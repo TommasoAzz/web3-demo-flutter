@@ -17,10 +17,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ProxyProvider2<Web3Connector, String, TodoListContract>(
-        update: (context, connector, filePath, _) => TodoListContract(
+      body: ProxyProvider3<Web3Connector, String, List<String>, TodoListContract>(
+        update: (context, connector, contractAddress, contractABI, _) => TodoListContract(
           web3connector: connector,
-          contractFilePath: filePath,
+          contractAddress: contractAddress,
+          contractABI: contractABI,
         ),
         builder: (context, space) {
           return FutureBuilder<void>(
@@ -49,10 +50,11 @@ class HomePage extends StatelessWidget {
                             return const Center(child: CircularProgressIndicator());
                           }
                           _logger.d("Loaded inner");
+                          _logger.d("SNAPSHOT DATA: ${snapshot.data}");
                           return Body(
                             addTodoItem: todoListContract.addTodoItem,
                             updateTodoItemState: todoListContract.updateTodoItemState,
-                            todoItems: snapshot.data!,
+                            todoItems: snapshot.data ?? [],
                           );
                         },
                       ),
