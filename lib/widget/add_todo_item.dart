@@ -34,6 +34,7 @@ class _AddTodoItemState extends State<AddTodoItem> {
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "Add new to-do",

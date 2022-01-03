@@ -40,6 +40,8 @@ class Body extends StatelessWidget {
                 ),
                 Scrollbar(
                   child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
                     itemCount: toBeDone.length,
                     itemBuilder: (context, index) => TodoItem(
                       item: toBeDone.elementAt(index),
@@ -62,6 +64,8 @@ class Body extends StatelessWidget {
                 ),
                 Scrollbar(
                   child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
                     itemCount: inProgress.length,
                     itemBuilder: (context, index) => TodoItem(
                       item: inProgress.elementAt(index),
@@ -83,6 +87,8 @@ class Body extends StatelessWidget {
                 ),
                 Scrollbar(
                   child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
                     itemCount: completed.length,
                     itemBuilder: (context, index) => TodoItem(
                       item: completed.elementAt(index),
@@ -91,7 +97,7 @@ class Body extends StatelessWidget {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

@@ -28,10 +28,8 @@ class HomePage extends StatelessWidget {
             future: Provider.of<TodoListContract>(context, listen: false).connectToSmartContract(),
             builder: (context, snapshot) {
               if (snapshot.connectionState != ConnectionState.done) {
-                _logger.d("Loading outer");
                 return const Center(child: CircularProgressIndicator());
               }
-              _logger.d("Loaded outer (${snapshot.connectionState})");
               return Consumer<TodoListContract>(builder: (context, todoListContract, _) {
                 return Center(
                   child: Column(
@@ -46,11 +44,8 @@ class HomePage extends StatelessWidget {
                         future: todoListContract.getTodoItems(),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState != ConnectionState.done) {
-                            _logger.d("Loading inner");
                             return const Center(child: CircularProgressIndicator());
                           }
-                          _logger.d("Loaded inner");
-                          _logger.d("SNAPSHOT DATA: ${snapshot.data}");
                           return Body(
                             addTodoItem: todoListContract.addTodoItem,
                             updateTodoItemState: todoListContract.updateTodoItemState,
