@@ -26,8 +26,8 @@ class SmartTodoList extends StatelessWidget {
           ),
           Provider<List<String>>.value(value: const [
             "function addTodoItem(string) returns (uint)",
-            "function getTodoItems() view returns (TodoItem[])",
-            "function updateTodoItemState(uint, CompletitionState) returns (bool)"
+            "function getTodoItems() view returns ((uint, string, uint8)[])",
+            "function updateTodoItemState(uint, uint8) returns (bool)"
           ]),
           Provider<Web3Connector>(
             create: (context) => Web3Connector(),
