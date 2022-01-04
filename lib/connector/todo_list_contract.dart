@@ -1,18 +1,19 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_web3/flutter_web3.dart';
 import 'package:web3_demo_flutter/connector/web3_connector.dart';
 import 'package:web3_demo_flutter/logger/logger.dart';
 import 'package:web3_demo_flutter/model/todo_item.dart';
 
-class TodoListContract {
+class TodoListContract with ChangeNotifier {
   final _logger = getLogger("TodoListContract");
 
-  final Web3Connector web3connector;
+  late final Web3Connector web3connector;
 
-  final String contractAddress;
+  late final String contractAddress;
 
-  final List<String> contractABI;
+  late final List<String> contractABI;
 
-  late Contract? _todoListContract;
+  late final Contract? _todoListContract;
 
   late final String _account;
 
@@ -36,12 +37,16 @@ class TodoListContract {
 
   Future<void> addTodoItem(final String text) async {
     _logger.v("addTodoItem");
-    await _todoListContract?.send("addTodoItem", [text.trim()]);
+    final tx = await _todoListContract?.send("addTodoItem", [text.trim()]);
+    await tx?.wait();
+    notifyListeners();
   }
 
   Future<void> updateTodoItemState(final int todoItemId, final CompletitionState newState) async {
     _logger.v("updateTodoItemState");
-    await _todoListContract?.send("updateTodoItemState", [todoItemId, newState.index]);
+    final tx = await _todoListContract?.send("updateTodoItemState", [todoItemId, newState.index]);
+    await tx?.wait();
+    notifyListeners();
   }
 
   Future<List<TodoItem>> getTodoItems() async {
@@ -50,8 +55,17 @@ class TodoListContract {
       _logger.e("The instance for the TodoList smart contract is null.");
       return [];
     }
-    final todoListFromChain = await _todoListContract!.call("getTodoItems");
-    _logger.d("TODO LIST: $todoListFromChain");
-    return [];
+    final todoListFromChain = await _todoListContract!.call("getTodoItems") as List<dynamic>;
+    final todoList = todoListFromChain
+        .map((ti) => ti as List<dynamic>)
+        .map(
+          (ti) => TodoItem(
+            id: int.tryParse(ti[0].toString()) ?? -1,
+            text: ti[1],
+            state: CompletitionState.values[ti[2]],
+          ),
+        )
+        .toList();
+    return todoList;
   }
 }
