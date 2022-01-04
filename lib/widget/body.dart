@@ -30,72 +30,66 @@ class Body extends StatelessWidget {
         children: [
           SizedBox(
             width: constraints.maxWidth * 0.33,
-            child: Column(
-              children: [
-                Text(
-                  "To be done",
-                  style: TextStyle(
-                    fontSize: Theme.of(context).textTheme.headline4?.fontSize,
-                  ),
-                ),
-                Scrollbar(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    itemCount: toBeDone.length,
-                    itemBuilder: (context, index) => TodoItem(
-                      item: toBeDone.elementAt(index),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text(
+                    "To be done",
+                    style: TextStyle(
+                      fontSize: Theme.of(context).textTheme.headline4?.fontSize,
                     ),
                   ),
-                ),
-                AddTodoItem(addTodoItem: addTodoItem),
-              ],
+                  ...toBeDone.map(
+                    (ti) => TodoItem(
+                      item: ti,
+                      updateTodoItemState: updateTodoItemState,
+                    ),
+                  ),
+                  AddTodoItem(addTodoItem: addTodoItem)
+                ],
+              ),
             ),
           ),
           SizedBox(
             width: constraints.maxWidth * 0.33,
-            child: Column(
-              children: [
-                Text(
-                  "In progress",
-                  style: TextStyle(
-                    fontSize: Theme.of(context).textTheme.headline4?.fontSize,
-                  ),
-                ),
-                Scrollbar(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    itemCount: inProgress.length,
-                    itemBuilder: (context, index) => TodoItem(
-                      item: inProgress.elementAt(index),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text(
+                    "In progress",
+                    style: TextStyle(
+                      fontSize: Theme.of(context).textTheme.headline4?.fontSize,
                     ),
                   ),
-                ),
-              ],
+                  ...inProgress.map(
+                    (ti) => TodoItem(
+                      item: ti,
+                      updateTodoItemState: updateTodoItemState,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           SizedBox(
             width: constraints.maxWidth * 0.33,
-            child: Column(
-              children: [
-                Text(
-                  "Completed",
-                  style: TextStyle(
-                    fontSize: Theme.of(context).textTheme.headline4?.fontSize,
-                  ),
-                ),
-                Scrollbar(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    itemCount: completed.length,
-                    itemBuilder: (context, index) => TodoItem(
-                      item: completed.elementAt(index),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text(
+                    "Completed",
+                    style: TextStyle(
+                      fontSize: Theme.of(context).textTheme.headline4?.fontSize,
                     ),
                   ),
-                ),
-              ],
+                  ...completed.map(
+                    (ti) => TodoItem(
+                      item: ti,
+                      updateTodoItemState: updateTodoItemState,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

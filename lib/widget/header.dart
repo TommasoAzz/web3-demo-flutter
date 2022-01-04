@@ -28,11 +28,13 @@ class Header extends StatelessWidget {
             child: Row(
               children: [
                 const Icon(Icons.info_outline_rounded),
-                Text(
-                  "Account: $account",
-                  style: TextStyle(
-                    fontSize: Theme.of(context).textTheme.headline3?.fontSize,
-                    overflow: TextOverflow.ellipsis,
+                Flexible(
+                  child: Text(
+                    "Account: $account",
+                    style: TextStyle(
+                      fontSize: Theme.of(context).textTheme.headline3?.fontSize,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
               ],
