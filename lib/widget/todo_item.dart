@@ -36,7 +36,7 @@ class TodoItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton(
-                      onPressed: () => updateTodoItemState(
+                      onPressed: () async => await updateTodoItemState(
                         item.id,
                         model.CompletitionState.values[item.state.index + 1],
                       ),

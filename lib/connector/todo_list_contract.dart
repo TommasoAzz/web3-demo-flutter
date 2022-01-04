@@ -55,7 +55,7 @@ class TodoListContract with ChangeNotifier {
       _logger.e("The instance for the TodoList smart contract is null.");
       return [];
     }
-    final todoListFromChain = await _todoListContract!.call("getTodoItems") as List<dynamic>;
+    final todoListFromChain = await _todoListContract!.call<List<dynamic>>("getTodoItems");
     final todoList = todoListFromChain
         .map((ti) => ti as List<dynamic>)
         .map(

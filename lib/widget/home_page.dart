@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:web3_demo_flutter/connector/todo_list_contract.dart';
 import 'package:web3_demo_flutter/connector/web3_connector.dart';
-import 'package:web3_demo_flutter/logger/logger.dart';
 import 'package:web3_demo_flutter/widget/body.dart';
 import 'package:web3_demo_flutter/widget/header.dart';
 import 'package:web3_demo_flutter/model/todo_item.dart';
 
 class HomePage extends StatelessWidget {
-  final _logger = getLogger("HomePage");
-
   final String title;
 
-  HomePage({Key? key, required this.title}) : super(key: key);
+  const HomePage({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +21,8 @@ class HomePage extends StatelessWidget {
           contractABI: Provider.of<List<String>>(context, listen: false),
         ),
         builder: (context, space) {
+          debugPrint("WIDTH: ${MediaQuery.of(context).size.width}");
+          debugPrint("HEIGHT: ${MediaQuery.of(context).size.height}");
           return FutureBuilder<void>(
             future: Provider.of<TodoListContract>(context, listen: false).connectToSmartContract(),
             builder: (context, snapshot) {
@@ -41,22 +40,20 @@ class HomePage extends StatelessWidget {
                           account: todoListContract.account,
                         ),
                         space!,
-                        Builder(
-                          builder: (context) => SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.8,
-                            child: FutureBuilder<List<TodoItem>>(
-                              future: todoListContract.getTodoItems(),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState != ConnectionState.done) {
-                                  return const Center(child: CircularProgressIndicator());
-                                }
-                                return Body(
-                                  addTodoItem: todoListContract.addTodoItem,
-                                  updateTodoItemState: todoListContract.updateTodoItemState,
-                                  todoItems: snapshot.data ?? [],
-                                );
-                              },
-                            ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.8,
+                          child: FutureBuilder<List<TodoItem>>(
+                            future: todoListContract.getTodoItems(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState != ConnectionState.done) {
+                                return const Center(child: CircularProgressIndicator());
+                              }
+                              return Body(
+                                addTodoItem: todoListContract.addTodoItem,
+                                updateTodoItemState: todoListContract.updateTodoItemState,
+                                todoItems: snapshot.data ?? [],
+                              );
+                            },
                           ),
                         ),
                       ],

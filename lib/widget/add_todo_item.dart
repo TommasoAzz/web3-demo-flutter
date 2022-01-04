@@ -13,7 +13,7 @@ class AddTodoItem extends StatefulWidget {
 }
 
 class _AddTodoItemState extends State<AddTodoItem> {
-  late TextEditingController _controller;
+  late final TextEditingController _controller;
 
   @override
   void initState() {

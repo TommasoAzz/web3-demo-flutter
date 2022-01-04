@@ -24,11 +24,13 @@ class SmartTodoList extends StatelessWidget {
           Provider<String>.value(
             value: "0x6c6ddD04ADd0a6FC2c121E7DeB4e95744A8B9061",
           ),
-          Provider<List<String>>.value(value: const [
-            "function addTodoItem(string) returns (uint)",
-            "function getTodoItems() view returns ((uint, string, uint8)[])",
-            "function updateTodoItemState(uint, uint8) returns (bool)"
-          ]),
+          Provider<List<String>>.value(
+            value: const [
+              "function addTodoItem(string) returns (uint)",
+              "function getTodoItems() view returns ((uint, string, uint8)[])",
+              "function updateTodoItemState(uint, uint8) returns (bool)"
+            ],
+          ),
           Provider<Web3Connector>(
             create: (context) => Web3Connector(),
           ),

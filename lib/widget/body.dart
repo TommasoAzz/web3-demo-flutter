@@ -4,7 +4,6 @@ import 'package:web3_demo_flutter/widget/add_todo_item.dart';
 import 'package:web3_demo_flutter/widget/todo_item.dart';
 
 class Body extends StatelessWidget {
-  // final Future<List<TodoItem>> Function() getTodoItems;
   final Future<void> Function(String) addTodoItem;
   final Future<void> Function(int, model.CompletitionState) updateTodoItemState;
 
@@ -12,7 +11,6 @@ class Body extends StatelessWidget {
 
   const Body({
     Key? key,
-    // required this.getTodoItems,
     required this.addTodoItem,
     required this.updateTodoItemState,
     required this.todoItems,
